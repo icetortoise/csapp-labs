@@ -20,7 +20,7 @@ CacheSet *initCache(int s, int e){
     CacheSet *ptr = (CacheSet *)malloc(nset*sizeof(CacheSet));
     for(int i = 0; i < nset; i++){
 	(ptr+i)->length = e;
-	(ptr+i)->line = (CacheLine *)malloc(e*sizeof(CacheLine));
+	(ptr+i)->line = (CacheLine *)realloc(e*sizeof(CacheLine));
 	((ptr+i)->line)->valid = 0;
 	((ptr+i)->line)->tag = 0;
     }
