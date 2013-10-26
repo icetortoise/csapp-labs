@@ -18,9 +18,10 @@ typedef struct CacheSet{
 CacheSet *initCache(int s, int e){
     int nset = 2 << (s-1);
     CacheSet *ptr = (CacheSet *)malloc(nset*sizeof(CacheSet));
+    CacheLine *line_ptr = (CacheLine *)realloc(ptr, nset*sizeof(CacheSet) + e*sizeof(CacheLine));
     for(int i = 0; i < nset; i++){
 	(ptr+i)->length = e;
-	(ptr+i)->line = (CacheLine *)realloc(e*sizeof(CacheLine));
+	(ptr+i)->line = line_ptr++;
 	((ptr+i)->line)->valid = 0;
 	((ptr+i)->line)->tag = 0;
     }
@@ -40,12 +41,14 @@ Address addr2tag(Address addr, int s, int b){
     return addr >> (b+s);
 }
 
-
+void processLine(int *miss, int *hit, int *envic, char *line, int verbose){
+    
+}
 
 int main()
 {
     // init cache
-    // CacheSet *cache = initCache(4, 1);
+    CacheSet *cache = initCache(4, 1);
     
     /* for(int i = 0; i < (2<<3); i++){ */
     /* 	if(cache[i].line->valid != 0){ */
@@ -55,7 +58,7 @@ int main()
     // printf("%lx ", (long unsigned int)addr2tag(0xefef1234, 15, 8));
     
     // read valgrind file
-    
+    free(cache);
     printSummary(0, 0, 0);
     return 0;
 }
